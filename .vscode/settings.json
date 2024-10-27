@@ -1,0 +1,5 @@
+{
+    "window.zoomLevel": 1.40,
+    "window.commandCenter": false,
+    "terminal.integrated.defaultProfile.linux": "zsh",
+}
