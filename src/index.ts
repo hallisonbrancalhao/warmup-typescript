@@ -1,14 +1,22 @@
-// Type guards 
+// Narrowing
 
-function printValue(value: string | number) {
-    if(typeof value === 'string') {
-        console.log(value.toUpperCase());
-    } else {
-        console.log(value.toFixed(2));
+function printValue(value: number | string) {
+    if (typeof value === 'number') {
+        value;
+        return;
     }
+    value;
 }
 
-// ----------------------------
+// ---------------------------------------------
+
+function printValue2(value: number | string | boolean) {
+    if (typeof value === 'number' || typeof value === 'string') {
+        value;
+        return;
+    }
+    value;
+}
 
 class Dog {
     bark() {
@@ -23,14 +31,14 @@ class Cat {
 }
 
 function makeSound(pet: Dog | Cat) {
-    if(pet instanceof Dog) {
-       return pet.bark();
+    if (pet instanceof Dog) {
+        pet.bark();
+        return;
     }
-    
     pet.meow();
 }
 
-// ---------------------------- IN 
+// ---------------------------------------------
 
 interface Fish {
     swim: () => void;
@@ -41,76 +49,33 @@ interface Bird {
 }
 
 function move(animal: Fish | Bird) {
-    if('swim' in animal) {
-        return animal.swim();
+    if ('swim' in animal) {
+        animal.swim();
+        return;
     }
-    
     animal.fly();
 }
 
-// ----------------------------
+// ---------------------------------------------
 
-function main(value: string[] | Date) {
-    if("push" in value) {
-        value.push('Hello ARRAY');
+function main(value: string | null) {
+    if(!value) {
+        return;
     }
+    value;
+}   
+
+// ---------------------------------------------
+
+interface Usuario{
+    id: string;
+    email: string;
+    telefone?: string;
 }
-
-// ----------------------------
-
-interface Cheff {
-    cook: () => void;
-    certifications: string[];
-}
-
-interface Teacher {
-    teach: () => void;
-    diploma: string;
-}
-
-interface Driver {
-    drive: () => void;
-    license: string;
-}
-
-type Professionals = Cheff | Teacher | Driver;
-
-// Tipando com type guard
-function isCheff(professional: Professionals): professional is Cheff {
-    return (professional as Cheff).cook !== undefined;
-}
-function isTeacher(professional: Professionals): professional is Teacher {
-    return (professional as Teacher).teach !== undefined;
-}
-
-function execute(professional: Professionals) {
-    if(isCheff(professional)) {
-        return professional.cook();
-    }
  
-    if(isTeacher(professional)) {
-        return professional.teach();
-    }
+function handle(user?: Usuario) {
+    if(!user) return;
 
-    return professional.drive();
-}
+    user.telefone;
 
-// ----------------------------
-
-class People {
-    isStudent(): this is Student {
-        return this instanceof Student;
-    }
-
-    isWorker(): this is Worker {
-        return this instanceof Worker;
-    }
-}
-
-class Student extends People {
-    study(): void {}
-}
-
-class Worker extends People {
-    work(): void {}
 }
