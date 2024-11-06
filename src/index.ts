@@ -1,68 +1,64 @@
-// Generics
+// Record
 
-function getFirstElement<T>(arr: T[]): T {
-  return arr[0];
-}
+type Settings = Record<string, string>;
 
-// --------------------------------------------
-
-interface ApiResponse<T> {
-    data: T[];
-    success: boolean;
-    error: boolean;
-}
-
-interface User {
-    name: string;
-    age: number;
-}
-
-function fetchUser(): ApiResponse<User> {
-    return {
-        data: [{ name: 'John', age: 30 }],
-        success: true,
-        error: false
-    };
-}
-
-const { data } = fetchUser();
-data.forEach(user => {
-    user.name;
-    user.age;
-});
+const settings: Settings = {
+  theme: 'dark',
+  version: '1.0.0',
+};
 
 // --------------------------------------------
 
-class MyCustomArray<T> {
-    private items: T[] = [];
+type Offsets = Record<number, string>;
 
-    push(item: T) {
-        this.items.unshift(item);
-    }
-
-    remove():T | undefined {
-        return this.items.shift();
-    }
-
-    get(): T[] {
-        return this.items;
-    }
-}
-
-
-const myCustomArray = new MyCustomArray<number>();
-myCustomArray.push(1);
-myCustomArray.remove();
+const offsets: Offsets = {
+  1: 'one',
+  '2': 'two',
+};
 
 // --------------------------------------------
 
-interface HasName { name: string }
-
-function logLength<T extends HasName>(arr: T): void {
-    console.log(arr.name);
+interface Route {
+    path: string;
+    children?: Routes;
 }
 
-logLength({
+type Routes = Record<string, Route>;
+
+const routes: Routes = {
+    home: { path: '/' },
+    about: { path: '/about' },
+    products: {
+        path: '/products',
+        children: {
+            list: { path: '/list' },
+            details: { path: '/details' },
+        },
+    }
+};
+
+// --------------------------------------------
+
+type Dictionary = Record<string, number | string | boolean>;
+
+const dictionary: Dictionary = {
     name: 'John',
-    length: 10
-});
+    age: 30,
+    isStudent: true,
+};
+
+// --------------------------------------------
+
+type Feature = "compileOnSabe" | "lintOnSave" | "lintOnCommit";
+
+type Features = Record<Feature, boolean>;
+
+// autocomplte
+const features: Features = {
+    compileOnSabe: true,
+    lintOnSave: true,
+    lintOnCommit: false,
+};
+
+features.compileOnSabe; // true
+
