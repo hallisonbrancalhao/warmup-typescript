@@ -1,81 +1,68 @@
-// Narrowing
+// Generics
 
-function printValue(value: number | string) {
-    if (typeof value === 'number') {
-        value;
-        return;
+function getFirstElement<T>(arr: T[]): T {
+  return arr[0];
+}
+
+// --------------------------------------------
+
+interface ApiResponse<T> {
+    data: T[];
+    success: boolean;
+    error: boolean;
+}
+
+interface User {
+    name: string;
+    age: number;
+}
+
+function fetchUser(): ApiResponse<User> {
+    return {
+        data: [{ name: 'John', age: 30 }],
+        success: true,
+        error: false
+    };
+}
+
+const { data } = fetchUser();
+data.forEach(user => {
+    user.name;
+    user.age;
+});
+
+// --------------------------------------------
+
+class MyCustomArray<T> {
+    private items: T[] = [];
+
+    push(item: T) {
+        this.items.unshift(item);
     }
-    value;
-}
 
-// ---------------------------------------------
-
-function printValue2(value: number | string | boolean) {
-    if (typeof value === 'number' || typeof value === 'string') {
-        value;
-        return;
+    remove():T | undefined {
+        return this.items.shift();
     }
-    value;
-}
 
-class Dog {
-    bark() {
-        console.log('Woof!');
+    get(): T[] {
+        return this.items;
     }
 }
 
-class Cat {
-    meow() {
-        console.log('Meow!');
-    }
+
+const myCustomArray = new MyCustomArray<number>();
+myCustomArray.push(1);
+myCustomArray.remove();
+
+// --------------------------------------------
+
+interface HasName { name: string }
+
+function logLength<T extends HasName>(arr: T): void {
+    console.log(arr.name);
 }
 
-function makeSound(pet: Dog | Cat) {
-    if (pet instanceof Dog) {
-        pet.bark();
-        return;
-    }
-    pet.meow();
-}
-
-// ---------------------------------------------
-
-interface Fish {
-    swim: () => void;
-}
-
-interface Bird {
-    fly: () => void;
-}
-
-function move(animal: Fish | Bird) {
-    if ('swim' in animal) {
-        animal.swim();
-        return;
-    }
-    animal.fly();
-}
-
-// ---------------------------------------------
-
-function main(value: string | null) {
-    if(!value) {
-        return;
-    }
-    value;
-}   
-
-// ---------------------------------------------
-
-interface Usuario{
-    id: string;
-    email: string;
-    telefone?: string;
-}
- 
-function handle(user?: Usuario) {
-    if(!user) return;
-
-    user.telefone;
-
-}
+logLength({
+    name: 'John',
+    length: 10
+});
